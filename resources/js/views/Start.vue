@@ -1,9 +1,9 @@
 <template>
     <div>
-        This is start!
-        <h1 class="text-3xl font-bold underline">
-            Hello world!
-        </h1>
+<!--        This is start!-->
+<!--        <h1 class="text-3xl font-bold underline">-->
+<!--            Hello world!-->
+<!--        </h1>-->
     </div>
 </template>
 
