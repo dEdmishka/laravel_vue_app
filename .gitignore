@@ -6,6 +6,7 @@
 /storage/*.key
 /vendor
 /postgres-data
+/postgres-data/*
 .env
 .env.backup
 .env.production
