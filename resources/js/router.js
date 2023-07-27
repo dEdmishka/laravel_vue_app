@@ -1,10 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router/dist/vue-router.esm-bundler';
 import Start from "./views/Start.vue";
+import NewsFeed from "./views/NewsFeed.vue";
 
 const routes = [
     {
         path: '/',
-        component: Start,
+        component: NewsFeed,
         name: 'home',
     },
 ];
