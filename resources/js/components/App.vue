@@ -6,7 +6,6 @@
             <Sidebar/>
 
             <div class="overflow-x-hidden w-2/3">
-                asdsa
                 <router-view></router-view>
             </div>
         </div>
