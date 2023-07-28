@@ -1,4 +1,5 @@
 <template>
+<!--    {{ post }}-->
     <div class="bg-white rounded w-2/3 mt-6 overflow-hidden">
         <div class="flex flex-col p-4">
             <div class="flex items-center">
@@ -7,17 +8,17 @@
                          alt="profile image for user" class="w-8 h-8 object-cover rounded-full">
                 </div>
                 <div class="ml-6">
-                    <div class="text-sm font-bold">Name User</div>
-                    <div class="text-sm text-gray-400">12 mins</div>
+                    <div class="text-sm font-bold">{{ post.data.attributes.posted_by.data.attributes.name }}</div>
+                    <div class="text-sm text-gray-400">{{  post.data.attributes.posted_at }}</div>
                 </div>
             </div>
             <div class="mt-4">
-                <p>Not aaldal</p>
+                <p>{{  post.data.attributes.body }}</p>
             </div>
         </div>
-        <div class="w-full">
+        <div class="w-full" v-if="post.data.attributes.image">
             <img
-                src="https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                :src="post.data.attributes.image"
                 alt="post image" class="w-full">
         </div>
 
@@ -56,7 +57,11 @@
 
 <script>
 export default {
-    name: "Post"
+    name: "Post",
+
+    props: [
+        'post',
+    ]
 }
 </script>
 

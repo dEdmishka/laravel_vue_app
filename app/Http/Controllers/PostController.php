@@ -18,7 +18,6 @@ class PostController extends Controller
     {
         $data = request()->validate([
             'data.attributes.body' => '',
-
         ]);
 
 //        dd($data);
