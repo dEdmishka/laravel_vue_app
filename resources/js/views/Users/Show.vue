@@ -3,7 +3,7 @@
         <div class="relative mb-8">
             <div class="w-100 h-64 overflow-hidden z-10">
                 <img
-                    src="https://lh3.googleusercontent.com/proxy/jnVru-xze6Fq2yajpjb6yEP1ca-nw8LxWWNyjHSf1exCR34rSD4txeWQ7IQat5-Jr9-R7GR5StLQRXVAGm0z5gtvi6QIYh49FNvCeJ1-vKU6XJBv30tdDmxjePYT6_x6oyLQ1_Zb0K2fr9AJUw=s0-d"
+                    src="https://th.bing.com/th/id/R.49735b38c27ca67787e201a8f4b0fd6d?rik=Yeba4oTgZZIBBA&riu=http%3a%2f%2favante.biz%2fwp-content%2fuploads%2fDownload-hd-backgrounds%2fDownload-hd-backgrounds-041.jpg&ehk=Nk5YhR00vTCJR2p4kaMj5MKuYzVr36EkV8C9ayV0Ijw%3d&risl=&pid=ImgRaw&r=0"
                     alt="user background image" class="object-cover w-full">
             </div>
 
