@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPostController;
@@ -26,6 +27,7 @@ Route::middleware('auth:api')->group(function () {
 //    Route::get('/posts', [PostController::class, 'index']);
 //    Route::post('/posts', [PostController::class, 'store']);
 //    Route::get('/users', [UserController::class, 'show']);
+    Route::get('/auth-user', [AuthUserController::class, 'show']);
 
     Route::apiResources([
         '/posts' => PostController::class,

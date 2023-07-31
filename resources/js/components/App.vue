@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col flex-1 h-screen overflow-y-hidden">
         <Navbar/>
-<!--        This is app!-->
+        <!--        This is app!-->
         <div class="flex overflow-y-hidden flex-1">
             <Sidebar/>
 
@@ -20,6 +20,20 @@ export default {
     components: {
         Navbar,
         Sidebar
+    },
+
+    watch: {
+        $route(to, from) {
+            this.$store.dispatch('title/setPageTitle', to.meta.title);
+        }
+    },
+
+    created() {
+        this.$store.dispatch('title/setPageTitle', this.$route.meta.title);
+    },
+
+    mounted() {
+        this.$store.dispatch('user/fetchAuthUser');
     }
 }
 </script>
