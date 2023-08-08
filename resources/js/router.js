@@ -8,11 +8,13 @@ const routes = [
         path: '/',
         component: NewsFeed,
         name: 'home',
+        meta: { title: 'News Feed'}
     },
     {
         path: '/users/:userId',
         component: UserShow,
         name: 'user.show',
+        meta: { title: 'Profile'}
     },
 ];
 
