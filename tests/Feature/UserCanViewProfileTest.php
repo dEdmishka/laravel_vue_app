@@ -19,7 +19,7 @@ class UserCanViewProfileTest extends TestCase
     /** @test */
     public function a_user_can_view_user_profiles()
     {
-        $this->withExceptionHandling();
+//        $this->withExceptionHandling();
 
         $this->actingAs($user = User::factory()->create(), 'api');
         $posts = Post::factory()->create();
@@ -47,8 +47,6 @@ class UserCanViewProfileTest extends TestCase
     /** @test */
     public function a_user_can_fetch_posts_for_a_profile()
     {
-        $this->withExceptionHandling();
-
         $this->actingAs($user = User::factory()->create(), 'api');
         $post = Post::factory()->create(['user_id' => $user->id]);
 

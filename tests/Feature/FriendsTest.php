@@ -6,22 +6,18 @@ use App\Models\Friend;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FriendsTest extends TestCase
 {
-    // vendor/bin/phpunit --filter a_user_can_send_a_friend_request
     use RefreshDatabase;
+//    use DatabaseTransactions;
 
-    /**
-     * A basic feature test example.
-     */
+    // vendor/bin/phpunit --filter a_user_can_send_a_friend_request
+
     /** @test */
     public function a_user_can_send_a_friend_request()
     {
-        $this->withExceptionHandling();
-
         $this->actingAs($user = User::factory()->create(), 'api');
         $anotherUser = User::factory()->create();
 
@@ -50,13 +46,31 @@ class FriendsTest extends TestCase
         ]);
     }
 
+    // vendor/bin/phpunit --filter a_user_can_send_a_friend_request_only_once
+
+    /** @test */
+    public function a_user_can_send_a_friend_request_only_once()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $anotherUser = User::factory()->create();
+
+        $this->post('/api/friend-request', [
+            'friend_id' => $anotherUser->id,
+        ])->assertStatus(200);
+        $this->post('/api/friend-request', [
+            'friend_id' => $anotherUser->id,
+        ])->assertStatus(200);
+
+        $friendRequest = Friend::all();
+
+        $this->assertCount(1, $friendRequest);
+    }
+
     // vendor/bin/phpunit --filter only_valid_users_can_be_friend_requested
 
     /** @test */
     public function only_valid_users_can_be_friend_requested()
     {
-        $this->withExceptionHandling();
-
         $this->actingAs($user = User::factory()->create(), 'api');
 
         $response = $this->post('/api/friend-request', [
@@ -79,8 +93,6 @@ class FriendsTest extends TestCase
     /** @test */
     public function friend_request_can_be_accepted()
     {
-        $this->withExceptionHandling();
-
         $this->actingAs($user = User::factory()->create(), 'api');
         $anotherUser = User::factory()->create();
 
@@ -106,6 +118,8 @@ class FriendsTest extends TestCase
                 'friend_request_id' => $friendRequest->id,
                 'attributes' => [
                     'confirmed_at' => $friendRequest->confirmed_at->diffForHumans(),
+                    'friend_id' => $friendRequest->friend_id,
+                    'user_id' => $friendRequest->user_id,
                 ]
             ],
             'links' => [
@@ -143,8 +157,6 @@ class FriendsTest extends TestCase
     /** @test */
     public function only_the_recipient_can_accept_a_friend_request()
     {
-        $this->withExceptionHandling();
-
         $this->actingAs($user = User::factory()->create(), 'api');
         $anotherUser = User::factory()->create();
 
@@ -296,8 +308,6 @@ class FriendsTest extends TestCase
     /** @test */
     public function only_the_recipient_can_ignore_a_friend_request()
     {
-        $this->withExceptionHandling();
-
         $this->actingAs($user = User::factory()->create(), 'api');
         $anotherUser = User::factory()->create();
 

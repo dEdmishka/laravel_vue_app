@@ -12,10 +12,10 @@ class GetAuthUserTest extends TestCase
     use RefreshDatabase;
 
     // vendor/bin/phpunit --filter authenticated_user_can_be_fetched
+
     /** @test */
     public function authenticated_user_can_be_fetched()
     {
-        $this->withExceptionHandling();
         $this->actingAs($user = User::factory()->create(), 'api');
 
         $response = $this->get('/api/auth-user');
