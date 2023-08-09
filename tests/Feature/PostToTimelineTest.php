@@ -12,13 +12,12 @@ use Tests\TestCase;
 class PostToTimelineTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
+
+    //        vendor/bin/phpunit --filter a_user_can_post_a_text_post
+
     /** @test  */
     public function a_user_can_post_a_text_post(): void
     {
-        $this->withExceptionHandling();
         $this->actingAs($user = User::factory()->create(), 'api');
         $response = $this->post('/api/posts', [
             'data' => [
@@ -28,7 +27,6 @@ class PostToTimelineTest extends TestCase
                 ]
             ]
         ]);
-//        vendor/bin/phpunit --filter a_user_can_post_a_text_post
 
         $post = Post::first();
 
