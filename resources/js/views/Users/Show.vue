@@ -14,7 +14,7 @@
                          class="object-cover w-32 h-32 border-4 border-gray-200 rounded-full shadow-lg"
                          src="https://cdn.pixabay.com/photo/2014/07/09/10/04/man-388104_960_720.jpg">
                 </div>
-                <div v-if="status.user !== 'success'">Loading name...</div>
+                <div v-if="userStatus !== 'success'">Loading name...</div>
                 <div
                     v-else
                     class="text-2xl text-gray-100 ml-4">
@@ -47,10 +47,10 @@
             </div>
         </div>
 
-        <div v-if="status.posts !== 'success'">Loading posts...</div>
+        <div v-if="postsStatus !== 'success'">Loading posts...</div>
         <div v-else-if="posts.data.length === 0">No posts found!</div>
-        <Post v-else v-for="post in posts.data"
-              :key="post.data.post_id"
+        <Post v-else v-for="(post, postKey) in posts.data"
+              :key="postKey"
               :post="post"
         />
 
@@ -71,15 +71,16 @@ export default defineComponent({
     computed: {
         ...mapGetters({
             user: 'profile/user',
-            status: 'profile/status',
-            posts: 'profile/posts',
+            userStatus: 'profile/userStatus',
+            postsStatus: 'posts/postsStatus',
+            posts: 'posts/posts',
             friendBtnText: 'profile/friendBtnText',
         })
     },
     methods: {},
     mounted() {
         this.$store.dispatch('profile/fetchUser', this.$route.params.userId);
-        this.$store.dispatch('profile/fetchUserPosts', this.$route.params.userId);
+        this.$store.dispatch('posts/fetchUserPosts', this.$route.params.userId);
     }
 })
 </script>
