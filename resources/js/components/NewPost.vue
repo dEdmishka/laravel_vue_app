@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from "vuex";
 import {posts} from "../store/modules/posts.js";
 import _ from 'lodash';
 

@@ -5,18 +5,10 @@ export const profile = {
         user: null,
         userStatus: null,
         friendBtnText: '',
-        posts: [],
-        postsStatus: null,
     },
     getters: {
         user: state => state.user,
-        posts: state => state.posts,
-        status: state => {
-            return {
-                user: state.userStatus,
-                posts: state.postsStatus,
-            }
-        },
+        userStatus: state => state.userStatus,
         friendship: state => state.user.data.attributes.friendship,
         friendBtnText: state => state.friendBtnText
     },
@@ -26,12 +18,6 @@ export const profile = {
         },
         setUserStatus(state, status) {
             state.userStatus = status;
-        },
-        setPosts(state, posts) {
-            state.posts = posts;
-        },
-        setPostsStatus(state, postsStatus) {
-            state.postsStatus = postsStatus;
         },
         setUserFriendship(state, friendship) {
             state.user.data.attributes.friendship = friendship;
@@ -52,18 +38,6 @@ export const profile = {
                 .catch(err => {
                     console.log('Unable to fetch the user from the server');
                     commit('setUserStatus', 'error');
-                })
-        },
-        fetchUserPosts({commit, dispatch}, userId) {
-            commit('setPostsStatus', 'loading');
-            axios.get('/api/users/' + userId + '/posts')
-                .then(res => {
-                    commit('setPosts', res.data);
-                    commit('setPostsStatus', 'success');
-                })
-                .catch(err => {
-                    console.log('Unable to fetch posts!');
-                    commit('setPostsStatus', 'error');
                 })
         },
         sendFriendRequest({commit, getters, dispatch}, friendId) {

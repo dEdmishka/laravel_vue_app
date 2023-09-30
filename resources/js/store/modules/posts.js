@@ -2,30 +2,33 @@ export const posts = {
     namespaced: true,
 
     state: {
-        newsPosts: null,
-        newsPostsStatus: true,
+        posts: null,
+        postsStatus: true,
         postMessage: "",
     },
     getters: {
-        newsPosts: state => state.newsPosts,
-        newsStatus: state => state.newsPostsStatus,
+        posts: state => state.posts,
+        postsStatus: state => state.postsStatus,
         postMessage: state => state.postMessage,
     },
     mutations: {
         pushLikes(state, data) {
-            state.newsPosts.data[data.postKey].data.attributes.likes = data.likes;
+            state.posts.data[data.postKey].data.attributes.likes = data.likes;
+        },
+        pushComments(state, data) {
+            state.posts.data[data.postKey].data.attributes.comments = data.comments;
         },
         setPostsStatus(state, status) {
-            state.newsPostsStatus = status;
+            state.postsStatus = status;
         },
         setPosts(state, posts) {
-            state.newsPosts = posts;
+            state.posts = posts;
         },
         updateMessage(state, message) {
             state.postMessage = message;
         },
         pushPost(state, post) {
-            state.newsPosts.data.unshift(post);
+            state.posts.data.unshift(post);
         },
     },
     actions: {
@@ -40,6 +43,18 @@ export const posts = {
                 .catch(err => {
                     commit('setPostsStatus', 'error');
                 });
+        },
+        fetchUserPosts({commit, dispatch}, userId) {
+            commit('setPostsStatus', 'loading');
+            axios.get('/api/users/' + userId + '/posts')
+                .then(res => {
+                    commit('setPosts', res.data);
+                    commit('setPostsStatus', 'success');
+                })
+                .catch(err => {
+                    console.log('Unable to fetch posts!');
+                    commit('setPostsStatus', 'error');
+                })
         },
         postMessage({commit, state}) {
             commit('setPostsStatus', 'loading');
@@ -58,12 +73,18 @@ export const posts = {
             axios.post('/api/posts/' + data.postId + '/like')
                 .then(res => {
                     commit('pushLikes', { likes: res.data, postKey: data.postKey});
-                    commit('updateMessage', '');
-                    // commit('setPostsStatus', 'success');
                 })
                 .catch(err => {
-                    console.log(err)
-                    // commit('setPostsStatus', 'error');
+                    console.log(err);
+                });
+        },
+        commentPost({commit, state}, data) {
+            axios.post('/api/posts/' + data.postId + '/comment', { body: data.body })
+                .then(res => {
+                    commit('pushComments', { comments: res.data, postKey: data.postKey});
+                })
+                .catch(err => {
+                    console.log(err);
                 });
         }
     },

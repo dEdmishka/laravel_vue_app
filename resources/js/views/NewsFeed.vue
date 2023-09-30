@@ -33,8 +33,8 @@ export default {
 
     computed: {
         ...mapGetters('posts', {
-            posts: 'newsPosts',
-            newsStatus: 'newsStatus'
+            posts: 'posts',
+            newsStatus: 'postsStatus'
         })
     },
 
