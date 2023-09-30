@@ -1,0 +1,82 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\Post;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class LikesTest extends TestCase
+{
+    use RefreshDatabase;
+
+    //php artisan test --filter a_user_can_like_a_post
+
+    /** @test */
+    public function a_user_can_like_a_post()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $post = Post::factory()->create(['id' => 123, 'user_id' => $user->id]);
+
+        $response = $this->post('/api/posts/' . $post->id . '/like')
+            ->assertStatus(200);
+
+        $this->assertCount(1, $user->likedPosts);
+        $response->assertJson([
+            'data' => [
+                [
+                    'data' => [
+                        'type' => 'likes',
+                        'like_id' => $user->id,
+                        'attributes' => [],
+                    ],
+                    'links' => [
+                        'self' => url('/posts/123'),
+                    ]
+                ]
+            ],
+            'links' => [
+                'self' => url('/posts'),
+            ]
+        ]);
+    }
+
+    //php artisan test --filter posts_are_returned_with_likes
+
+    /** @test */
+    public function posts_are_returned_with_likes()
+    {
+        $this->actingAs($user = User::factory()->create(), 'api');
+        $post = Post::factory()->create(['id' => 123, 'user_id' => $user->id]);
+        $this->post('/api/posts/' . $post->id . '/like')
+            ->assertStatus(200);
+
+        $this->get('/api/posts')
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    [
+                        'data' => [
+                            'type' => 'posts',
+                            'attributes' => [
+                                'likes' => [
+                                    'data' => [
+                                        [
+                                            'data' => [
+                                                'type' => 'likes',
+                                                'like_id' => $user->id,
+                                                'attributes' => []
+                                            ]
+                                        ]
+                                    ],
+                                    'like_count' => 1,
+                                    'user_likes_post' => true,
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+    }
+}

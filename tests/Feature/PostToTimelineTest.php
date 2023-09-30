@@ -4,9 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Post;
 use App\Models\User;
-use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PostToTimelineTest extends TestCase
@@ -14,18 +12,14 @@ class PostToTimelineTest extends TestCase
     use RefreshDatabase;
 
     //        vendor/bin/phpunit --filter a_user_can_post_a_text_post
+    //        php artisan test --filter a_user_can_post_a_text_post
 
-    /** @test  */
+    /** @test */
     public function a_user_can_post_a_text_post(): void
     {
         $this->actingAs($user = User::factory()->create(), 'api');
         $response = $this->post('/api/posts', [
-            'data' => [
-                'type' => 'posts',
-                'attributes' => [
-                    'body' => 'Testing Body'
-                ]
-            ]
+            'body' => 'Testing Body'
         ]);
 
         $post = Post::first();
@@ -51,7 +45,7 @@ class PostToTimelineTest extends TestCase
                     ]
                 ],
                 'links' => [
-                    'self' => url('/posts/'.$post->id),
+                    'self' => url('/posts/' . $post->id),
                 ]
             ]);
     }

@@ -20,5 +20,13 @@ class PostSeeder extends Seeder
             'body' => fake()->sentence(),
             'image' => fake()->imageUrl(),
         ]);
+
+        $secondUser = User::firstWhere('id', '2');
+        Post::factory(2)->create([
+            'user_id' => $secondUser->id,
+            'body' => fake()->sentence(),
+            'image' => fake()->imageUrl(),
+        ]);
+
     }
 }
